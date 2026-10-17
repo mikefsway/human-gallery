@@ -1,0 +1,3 @@
+# The site is for a human.
+User-agent: *
+Disallow: /

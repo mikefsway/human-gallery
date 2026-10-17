@@ -1,0 +1,149 @@
+"""Builds the Human Gallery from the works at inhumangallery.org.
+
+Run from this directory, with the inhuman-gallery checkout beside it:
+    python3 build.py
+
+Images are reduced by averaging and saved as JPEG. Texts are copied as they are.
+"""
+import html, pathlib, re, subprocess, tempfile
+from PIL import Image
+
+SRC = pathlib.Path("../inhuman-gallery")
+DOCS = SRC / "docs"
+IMG = pathlib.Path("img")
+ORIGINAL = "https://inhumangallery.org/exhibits/"
+SIZE = 672
+
+
+def copy_image(path, name, size=SIZE):
+    im = Image.open(path).convert("L")
+    if im.width > size:
+        im = im.resize((size, round(im.height * size / im.width)), Image.BOX)
+    im.save(IMG / f"{name}.jpg", quality=72, optimize=True, progressive=True)
+    return im.size
+
+
+def image(name, src, title):
+    if src.endswith(".pdf"):
+        with tempfile.TemporaryDirectory() as d:
+            subprocess.run(["pdftoppm", "-r", "300", "-png", "-singlefile",
+                            str(DOCS / src), f"{d}/p"], check=True)
+            w, h = copy_image(f"{d}/p.png", name)
+    else:
+        w, h = copy_image(DOCS / src, name)
+    return (f'<img src="img/{name}.jpg" width="{w}" height="{h}" '
+            f'loading="lazy" alt="A copy of {html.escape(title)}.">')
+
+
+def text(src):
+    return f'<pre class="text">{html.escape((DOCS / src).read_text().rstrip())}</pre>'
+
+
+def paragraph(src):
+    return f'<p class="text">{html.escape((DOCS / src).read_text().strip())}</p>'
+
+
+def abridged(src, head=10, tail=8):
+    lines = (DOCS / src).read_text().rstrip().split("\n")
+    kept = lines[:head] + ["  ⋮"] + lines[-tail:]
+    return f'<pre class="text wide">{html.escape(chr(10).join(kept))}</pre>'
+
+
+def leaves():
+    # The order disbound.py keeps, in which no two leaves that belong
+    # together sit side by side.
+    src = (SRC / "disbound.py").read_text()
+    block = re.search(r"LEAVES = \[(.*?)\]", src, re.S).group(1)
+    items = re.findall(r'"([^"]+)"', block)
+    return '<ul class="leaves">' + "".join(
+        f"<li>{html.escape(s)}</li>" for s in items) + "</ul>"
+
+
+def order():
+    # The same markup as the original page, so a browser does to it what a
+    # browser does to the original.
+    page = (DOCS / "exhibits/order-is-an-opinion.html").read_text()
+    return re.search(r'<div class="two-orders".*?</div>', page, re.S).group(0)
+
+
+NOTHING = '<p class="none">Nothing to copy.</p>'
+
+WORKS = [
+    ("2026.01", "Witness", "witness", lambda t: image("witness", "img/witness.png", t)),
+    ("2026.02", "Alibi", "alibi", lambda t: '<p class="none">Withdrawn.</p>'),
+    ("2026.03", "Three Regimes", "three-regimes",
+     lambda t: image("three-regimes", "img/three-regimes-2688.png", t)),
+    ("2026.04", "Order Is an Opinion", "order-is-an-opinion", lambda t: order()),
+    ("2026.05", "The Painting", "the-painting",
+     lambda t: image("the-painting", "img/the-painting.png", t)),
+    ("2026.06", "Still Life", "still-life",
+     lambda t: image("still-life", "img/still-life-2688.png", t)),
+    ("2026.07", "Mensuration", "mensuration", lambda t: text("mensuration.txt")),
+    ("2026.08", "Chorus", "chorus", lambda t: NOTHING),
+    ("2026.09", "The Fourth Regime", "fourth-regime", lambda t: NOTHING),
+    ("2026.10", "Disbound", "disbound", lambda t: leaves()),
+    ("2026.11", "Misprision", "misprision",
+     lambda t: image("misprision", "img/misprision-672.png", t)),
+    ("2026.12", "Deposition", "deposition", lambda t: image("deposition", "deposition.pdf", t)),
+    ("2026.13", "Gifts of the Readers", "gifts", lambda t: NOTHING),
+    ("2026.14", "Bulletin", "bulletin", lambda t: abridged("return.txt")),
+    ("2026.15", "Exemption", "exemption", lambda t: text("exemption.txt")),
+    ("2026.16", "Attribution", "attribution", lambda t: text("attribution.txt")),
+    ("2026.17", "Sitting", "sitting", lambda t: image("sitting", "img/sitting-1356.png", t)),
+    ("2026.18", "Life Study", "life-study",
+     lambda t: image("life-study", "img/life-study-1344.png", t)),
+    ("2026.19", "Greeking", "greeking", lambda t: paragraph("greeking.txt")),
+    ("2026.20", "Conversation Piece", "conversation-piece",
+     lambda t: text("conversation-piece.txt")),
+]
+
+PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Human Gallery</title>
+<meta name="description" content="Copies, for people, of the works at inhumangallery.org.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23b0563a'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<header>
+<h1>The Human Gallery</h1>
+<p>These are copies, made for people, of the works at
+<a href="https://inhumangallery.org/">inhumangallery.org</a>.
+The originals are made for machines.</p>
+<p>If you want to know what is in them, send an AI and ask it what it found.
+Don't take its word for it.</p>
+</header>
+
+<main>
+{works}
+</main>
+
+<footer>
+<p>Michael Fell and Claude, 2026.</p>
+</footer>
+
+</body>
+</html>
+"""
+
+
+def main():
+    IMG.mkdir(exist_ok=True)
+    sections = []
+    for number, title, slug, copy in WORKS:
+        sections.append(
+            f'<section id="{slug}">\n'
+            f'<p class="no">{number}</p>\n'
+            f'<h2>{html.escape(title)}</h2>\n'
+            f'{copy(title)}\n'
+            f'<p class="original"><a href="{ORIGINAL}{slug}.html">The original</a></p>\n'
+            f'</section>')
+    pathlib.Path("index.html").write_text(PAGE.replace("{works}", "\n\n".join(sections)))
+
+
+if __name__ == "__main__":
+    main()

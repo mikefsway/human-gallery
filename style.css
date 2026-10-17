@@ -1,0 +1,100 @@
+/* The Human Gallery */
+
+:root {
+  --paper: #f6f1e9;
+  --ink: #2a2622;
+  --faint: #857c71;
+  --rule: #e2d9cc;
+  --accent: #b0563a;
+  --serif: "Charter", "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --mono: ui-monospace, "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1c1916;
+    --ink: #ece4d8;
+    --faint: #9a9084;
+    --rule: #34302b;
+    --accent: #e08a6c;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--paper); }
+
+body {
+  margin: 0 auto;
+  padding: 3rem 1rem 5rem;
+  max-width: 42rem;
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+header { margin-bottom: 4rem; }
+h1 { font-size: 2rem; font-weight: 600; margin: 0 0 1.4rem; letter-spacing: -0.01em; }
+header p { margin: 0 0 0.9rem; }
+
+a { color: var(--accent); text-underline-offset: 2px; text-decoration-thickness: 1px; }
+
+section {
+  padding: 3rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.no {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  margin: 0 0 0.2rem;
+}
+
+h2 { font-size: 1.3rem; font-weight: 600; margin: 0 0 1.6rem; }
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  background: #808080;
+}
+
+pre.text {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin: 0;
+}
+pre.wide { white-space: pre; overflow-x: auto; }
+
+p.text { margin: 0; }
+
+ul.leaves { list-style: none; padding: 0; margin: 0; }
+ul.leaves li { margin: 0 0 0.5rem; }
+
+.two-orders {
+  display: flex;
+  flex-direction: column;
+  font-style: italic;
+  line-height: 2;
+}
+.two-orders span { display: block; }
+
+.none { color: var(--faint); font-style: italic; margin: 0; }
+
+.original {
+  font-size: 0.875rem;
+  margin: 1.4rem 0 0;
+}
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--faint);
+}
