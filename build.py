@@ -282,7 +282,8 @@ def label(number, title, link, medium, repro):
     if medium:
         rows.append(f'<p>{html.escape(medium)}</p>')
     rows.append(f'<p class="repro">{html.escape(repro)}</p>')
-    rows.append(f'<p class="acc"><a href="{link}">Inhuman Gallery {number}</a></p>')
+    rows.append(f'<p class="acc"><a href="{html.escape(link)}">'
+                f'Inhuman Gallery {html.escape(number)}</a></p>')
     return '<div class="label">\n' + "\n".join(rows) + '\n</div>'
 
 
@@ -325,7 +326,16 @@ def main():
     for n in sorted(set(live) | set(gone), reverse=True):
         entry = live.get(n) or gone[n]
         title = entry["title"]
-        link = ORIGINAL + entry.get("page", "")
+        # Catalogue values go into the page, so only a plain exhibit path and
+        # a plain accession number are let through.
+        page = entry.get("page", "")
+        if not re.fullmatch(r"exhibits/[a-z0-9-]+\.html", page):
+            print(f"SKIPPED {n!r}: unexpected page {page!r}")
+            continue
+        if not re.fullmatch(r"\d{4}\.\d{2}", n):
+            print(f"SKIPPED {n!r}: unexpected accession number")
+            continue
+        link = ORIGINAL + page
         medium, repro, copy, material = WORKS.get(n, ("", PENDING, None, None))
 
         if n in gone:
@@ -346,7 +356,7 @@ def main():
             piece = copy(title)
 
         hung.append(
-            f'<article class="work" id="{pathlib.Path(link).stem}">\n'
+            f'<article class="work" id="{html.escape(pathlib.Path(link).stem)}">\n'
             f'<div class="piece">\n{piece}\n</div>\n'
             f'{label(n, title, link, medium, repro)}\n'
             f'</article>')
