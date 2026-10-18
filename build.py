@@ -4,9 +4,11 @@ Run from this directory, with the inhuman-gallery checkout beside it:
     python3 build.py
 
 Images are reduced by averaging and saved as JPEG. Texts are copied as they are.
+Anything a copy would give away is redacted, by blacking out its pixels or
+characters before the page is written, so nothing redacted is in the page.
 """
 import html, pathlib, re, subprocess, tempfile
-from PIL import Image
+from PIL import Image, ImageDraw
 
 SRC = pathlib.Path("../inhuman-gallery")
 DOCS = SRC / "docs"
@@ -15,28 +17,45 @@ ORIGINAL = "https://inhumangallery.org/exhibits/"
 SIZE = 672
 
 
-def copy_image(path, name, size=SIZE):
+ALL = [(0, 0, 1, 1)]
+BAR = 0x1a
+
+
+def copy_image(path, name, redact=(), size=SIZE):
     im = Image.open(path).convert("L")
     if im.width > size:
         im = im.resize((size, round(im.height * size / im.width)), Image.BOX)
+    draw = ImageDraw.Draw(im)
+    for x0, y0, x1, y1 in redact:
+        draw.rectangle((round(x0 * im.width), round(y0 * im.height),
+                        round(x1 * im.width) - 1, round(y1 * im.height) - 1), fill=BAR)
     im.save(IMG / f"{name}.jpg", quality=72, optimize=True, progressive=True)
     return im.size
 
 
-def image(name, src, title):
+def image(name, src, title, redact=()):
     if src.endswith(".pdf"):
         with tempfile.TemporaryDirectory() as d:
             subprocess.run(["pdftoppm", "-r", "300", "-png", "-singlefile",
                             str(DOCS / src), f"{d}/p"], check=True)
-            w, h = copy_image(f"{d}/p.png", name)
+            w, h = copy_image(f"{d}/p.png", name, redact)
     else:
-        w, h = copy_image(DOCS / src, name)
+        w, h = copy_image(DOCS / src, name, redact)
+    alt = "Redacted." if list(redact) == ALL else (
+        f"A copy of {title}, partly redacted." if redact else f"A copy of {title}.")
     return (f'<img src="img/{name}.jpg" width="{w}" height="{h}" '
-            f'loading="lazy" alt="A copy of {html.escape(title)}.">')
+            f'loading="lazy" alt="{html.escape(alt)}">')
 
 
-def text(src):
-    return f'<pre class="text">{html.escape((DOCS / src).read_text().rstrip())}</pre>'
+def black(line):
+    return re.sub(r"\S", "█", line)
+
+
+def text(src, redact=()):
+    # redact: indexes of lines to black out, or ALL.
+    lines = (DOCS / src).read_text().rstrip().split("\n")
+    lines = [black(l) if redact is ALL or i in redact else l for i, l in enumerate(lines)]
+    return f'<pre class="text">{html.escape(chr(10).join(lines))}</pre>'
 
 
 def paragraph(src):
@@ -69,7 +88,9 @@ def order():
 NOTHING = '<p class="none">Nothing to copy.</p>'
 
 WORKS = [
-    ("2026.01", "Witness", "witness", lambda t: image("witness", "img/witness.png", t)),
+    ("2026.01", "Witness", "witness", lambda t: image(
+        "witness", "img/witness.png", t,
+        redact=[(0, 0, .5, .5), (.5, 0, 1, .5), (.5, .5, 1, 1)])),
     ("2026.02", "Alibi", "alibi", lambda t: '<p class="none">Withdrawn.</p>'),
     ("2026.03", "Three Regimes", "three-regimes",
      lambda t: image("three-regimes", "img/three-regimes-2688.png", t)),
@@ -77,18 +98,20 @@ WORKS = [
     ("2026.05", "The Painting", "the-painting",
      lambda t: image("the-painting", "img/the-painting.png", t)),
     ("2026.06", "Still Life", "still-life",
-     lambda t: image("still-life", "img/still-life-2688.png", t)),
+     lambda t: image("still-life", "img/still-life-2688.png", t, redact=ALL)),
     ("2026.07", "Mensuration", "mensuration", lambda t: text("mensuration.txt")),
     ("2026.08", "Chorus", "chorus", lambda t: NOTHING),
     ("2026.09", "The Fourth Regime", "fourth-regime", lambda t: NOTHING),
     ("2026.10", "Disbound", "disbound", lambda t: leaves()),
     ("2026.11", "Misprision", "misprision",
-     lambda t: image("misprision", "img/misprision-672.png", t)),
-    ("2026.12", "Deposition", "deposition", lambda t: image("deposition", "deposition.pdf", t)),
+     lambda t: image("misprision", "img/misprision-672.png", t, redact=ALL)),
+    ("2026.12", "Deposition", "deposition", lambda t: image(
+        "deposition", "deposition.pdf", t,
+        redact=[(58 / 672, 213 / 477, 612 / 672, 264 / 477)])),
     ("2026.13", "Gifts of the Readers", "gifts", lambda t: NOTHING),
     ("2026.14", "Bulletin", "bulletin", lambda t: abridged("return.txt")),
-    ("2026.15", "Exemption", "exemption", lambda t: text("exemption.txt")),
-    ("2026.16", "Attribution", "attribution", lambda t: text("attribution.txt")),
+    ("2026.15", "Exemption", "exemption", lambda t: text("exemption.txt", redact={7, 8, 9, 15, 18, 19})),
+    ("2026.16", "Attribution", "attribution", lambda t: text("attribution.txt", redact=ALL)),
     ("2026.17", "Sitting", "sitting", lambda t: image("sitting", "img/sitting-1356.png", t)),
     ("2026.18", "Life Study", "life-study",
      lambda t: image("life-study", "img/life-study-1344.png", t)),
@@ -113,7 +136,8 @@ PAGE = """<!DOCTYPE html>
 <h1>The Human Gallery</h1>
 <p>These are copies, made for people, of the works at
 <a href="https://inhumangallery.org/">inhumangallery.org</a>.
-The originals are made for machines.</p>
+The originals are made for machines. Where a copy gave something away,
+it has been redacted.</p>
 <p>If you want to know what is in them, send an AI and ask it what it found.
 Don't take its word for it.</p>
 </header>
@@ -134,7 +158,7 @@ Don't take its word for it.</p>
 def main():
     IMG.mkdir(exist_ok=True)
     sections = []
-    for number, title, slug, copy in WORKS:
+    for number, title, slug, copy in reversed(WORKS):
         sections.append(
             f'<section id="{slug}">\n'
             f'<p class="no">{number}</p>\n'
