@@ -1,0 +1,69 @@
+name: Rebuild from the Inhuman Gallery
+
+# Keeps the page in step with the Inhuman Gallery's catalogue. A new, withdrawn
+# or removed work shows up within the hour. A work whose reproduction still
+# needs review is listed in an open issue titled "Reproductions needed".
+
+on:
+  schedule:
+    - cron: "23 * * * *"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: human-gallery
+      - uses: actions/checkout@v4
+        with:
+          repository: mikefsway/inhuman-gallery
+          path: inhuman-gallery
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install tools
+        run: |
+          pip install pillow
+          sudo apt-get install -y poppler-utils >/dev/null
+      - name: Build
+        working-directory: human-gallery
+        run: python3 build.py | tee ../build.log
+      - name: Commit
+        working-directory: human-gallery
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "Rebuild from the Inhuman Gallery catalogue"
+            git push
+          fi
+      - name: Report reproductions that need review
+        working-directory: human-gallery
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="Reproductions needed"
+          LIST=$(grep -E '^(PENDING|REMOVED) ' ../build.log | sed -E 's/^PENDING /- /; s/^REMOVED /- removed from the catalogue: /' || true)
+          NUM=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$LIST" ]; then
+            BODY=$(printf '%s\n\n%s\n\n%s\n' \
+              "These works hang as \"Reproduction in preparation\" until a copy has been checked to give nothing away." \
+              "$LIST" \
+              "To clear one: add or adjust its row in WORKS in build.py, look at the copy, then run python3 build.py --approve <accession> and push.")
+            if [ -n "$NUM" ]; then gh issue edit "$NUM" --body "$BODY"; else gh issue create --title "$TITLE" --body "$BODY"; fi
+          elif [ -n "$NUM" ]; then
+            gh issue close "$NUM" --comment "Every reproduction is up to date."
+          fi
