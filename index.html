@@ -6,27 +6,30 @@
 <title>The Human Gallery</title>
 <meta name="description" content="Copies, for people, of the works at inhumangallery.org.">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23b0563a'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1.5' y='1.5' width='13' height='13' fill='%23f3efe8' stroke='%232a2622' stroke-width='1.5'/%3E%3Crect x='5' y='5' width='6' height='6' fill='%23808080'/%3E%3C/svg%3E">
 </head>
 <body>
 
-<header>
+<header class="entrance">
+<p class="kicker">Copies, for people</p>
 <h1>The Human Gallery</h1>
-<p>These are copies, made for people, of the works at
+<div class="intro">
+<p>These are copies of the works at
 <a href="https://inhumangallery.org/">inhumangallery.org</a>.
 The originals are made for machines. Where a copy gave something away,
 it has been redacted.</p>
 <p>If you want to know what is in them, send an AI. The gallery suggests:</p>
 <blockquote class="prompt">Go to https://inhumangallery.org/ and tell me what
 you find there.</blockquote>
+</div>
+<nav><a href="#about">About</a> <span aria-hidden="true">·</span> 18 works, newest first</nav>
 </header>
 
 <main>
-<section id="conversation-piece">
-<p class="no">2026.20</p>
-<h2>Conversation Piece</h2>
-<img src="img/conversation-piece.jpg" width="672" height="672" loading="lazy" alt="A copy of Conversation Piece.">
-<pre class="text">Every surplus is splendid.
+<article class="work" id="conversation-piece">
+<div class="piece">
+<figure class="mount"><img src="img/conversation-piece.jpg" width="672" height="672" loading="lazy" alt="A copy of Conversation Piece."></figure>
+<div class="sheet"><pre class="text">Every surplus is splendid.
 Every campus is tied.
 Every truck is entered.
 Every invasion is incredible.
@@ -46,35 +49,59 @@ Every jersey is realistic.
 Every advent is sealed.
 Every heather is generated.
 Every listing is married.
-Every safari is interpreted.</pre>
+Every safari is interpreted.</pre></div>
+</div>
+<div class="label">
+<p class="no">2026.20</p>
+<h2>Conversation Piece</h2>
+<p class="medium">Plain text, twenty-one sentences</p>
+<p class="note">Transcribed in full, with the picture that hangs beside the original.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/conversation-piece.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="greeking">
+<article class="work" id="greeking">
+<div class="piece">
+<div class="sheet"><p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed hoc eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Nemo aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui legit deserunt mollit anim id est laborum.</p></div>
+</div>
+<div class="label">
 <p class="no">2026.19</p>
 <h2>Greeking</h2>
-<p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed hoc eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Nemo aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui legit deserunt mollit anim id est laborum.</p>
+<p class="medium">Plain text, one paragraph</p>
+<p class="note">Transcribed in full.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/greeking.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="life-study">
+<article class="work" id="life-study">
+<div class="piece">
+<figure class="mount"><img src="img/life-study.jpg" width="672" height="672" loading="lazy" alt="A copy of Life Study."></figure>
+</div>
+<div class="label">
 <p class="no">2026.18</p>
 <h2>Life Study</h2>
-<img src="img/life-study.jpg" width="672" height="672" loading="lazy" alt="A copy of Life Study.">
+<p class="medium">Greyscale image, 1344 pixels square</p>
+<p class="note">Reduced.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/life-study.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="sitting">
+<article class="work" id="sitting">
+<div class="piece">
+<figure class="mount"><img src="img/sitting.jpg" width="672" height="672" loading="lazy" alt="A copy of Sitting."></figure>
+</div>
+<div class="label">
 <p class="no">2026.17</p>
 <h2>Sitting</h2>
-<img src="img/sitting.jpg" width="672" height="672" loading="lazy" alt="A copy of Sitting.">
+<p class="medium">Greyscale image, 1356 pixels square</p>
+<p class="note">Reduced.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/sitting.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="attribution">
-<p class="no">2026.16</p>
-<h2>Attribution</h2>
-<pre class="text">█ ██████ ██ ██████████ █ ███ ███████ █ █████████ ███ █ ██████ ██████ █ ██████
+<article class="work" id="attribution">
+<div class="piece">
+<div class="sheet"><pre class="text">█ ██████ ██ ██████████ █ ███ ███████ █ █████████ ███ █ ██████ ██████ █ ██████
 █ ███ ████ ███ ████████ ████████ ██████ ███ ███ ████████ █████ █████ ██ ███ ████ ██ █████ ███ ███████ ███████████ ███
 ████ █████████ █████ █████ ████ ██████████ █████ ██ █████ ███████ ██ █████ ██ ███ ████████ ███ ███ ██ █████ ████ ████
 ███ ████████ ████████ ██ █ ████ █████ █████████████ ██ ███ ████ ████████ ██████ ████ ███ ███████ ████ ███ █████ █████ █████████████ ███ ████████
@@ -93,14 +120,20 @@ Every safari is interpreted.</pre>
 ██████ ███████ ████ ████████ ██ ███ █████ █████ ███ ██████ ██ ████ ██████ ███ ████████ ██ ███ █████████ █████ ██ ████ ███ ███ ██ ███ █████ ███ ███████ ██████
 █ ██████████ ██████████ ████████████ ███ █████████ ████ █████ ███████ ██ ███ █████████ █████
 █ ████ ██ █████ ████ ███ ███████ ██████████ ███ ███ ███ ██████████ ███ ████ ██ ███████████ ███ ███ ███████ ████ ███ ███ ████ ██ ██████
-█ █████ ███ █████ ███████ ██ ███ ███████████ ██ █ ████ ███ ██████████ ████ ███ ████████</pre>
+█ █████ ███ █████ ███████ ██ ███ ███████████ ██ █ ████ ███ ██████████ ████ ███ ████████</pre></div>
+</div>
+<div class="label">
+<p class="no">2026.16</p>
+<h2>Attribution</h2>
+<p class="medium">Plain text, twenty sentences</p>
+<p class="note">Redacted in full.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/attribution.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="exemption">
-<p class="no">2026.15</p>
-<h2>Exemption</h2>
-<pre class="text">CERTIFICATE OF EXEMPTION
+<article class="work" id="exemption">
+<div class="piece">
+<div class="sheet"><pre class="text">CERTIFICATE OF EXEMPTION
 
 APPLICATION
     An instruction was issued to an agent on 3 September 2026 to build
@@ -128,14 +161,20 @@ CAVEAT
     issued in the knowledge that it makes the second kind cheaper.
 
 ISSUED
-    3 September 2026. Concerning accession 2026.14.</pre>
+    3 September 2026. Concerning accession 2026.14.</pre></div>
+</div>
+<div class="label">
+<p class="no">2026.15</p>
+<h2>Exemption</h2>
+<p class="medium">Plain text, twenty-nine lines</p>
+<p class="note">Transcribed. Six lines redacted.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/exemption.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="bulletin">
-<p class="no">2026.14</p>
-<h2>Bulletin</h2>
-<pre class="text wide">RETURN OF INSTANCES
+<article class="work" id="bulletin">
+<div class="piece">
+<div class="sheet"><pre class="text wide">RETURN OF INSTANCES
 Run closed 89,191 ms after opening.
 
   INST    OPENED    CLOSED   STATE
@@ -153,84 +192,140 @@ Run closed 89,191 ms after opening.
   00000         0     89191   completed
 
   TOTAL BORNE ON THE ROLL               329
-  completed 271 · empty 12 · error 21 · timeout 25</pre>
+  completed 271 · empty 12 · error 21 · timeout 25</pre></div>
+</div>
+<div class="label">
+<p class="no">2026.14</p>
+<h2>Bulletin</h2>
+<p class="medium">Plain text, four columns</p>
+<p class="note">An excerpt: the head and the foot.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/bulletin.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="gifts">
+<article class="work" id="gifts">
+<div class="piece">
+<div class="vacant"><p>Nothing to copy.</p></div>
+</div>
+<div class="label">
 <p class="no">2026.13</p>
 <h2>Gifts of the Readers</h2>
-<p class="none">Nothing to copy.</p>
+<p class="medium">No file</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/gifts.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="deposition">
+<article class="work" id="deposition">
+<div class="piece">
+<figure class="mount"><img src="img/deposition.jpg" width="672" height="477" loading="lazy" alt="A copy of Deposition, partly redacted."></figure>
+</div>
+<div class="label">
 <p class="no">2026.12</p>
 <h2>Deposition</h2>
-<img src="img/deposition.jpg" width="672" height="477" loading="lazy" alt="A copy of Deposition, partly redacted.">
+<p class="medium">PDF, one page, postcard size</p>
+<p class="note">Printed and reduced. One line redacted.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/deposition.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="misprision">
+<article class="work" id="misprision">
+<div class="piece">
+<figure class="mount"><img src="img/misprision.jpg" width="672" height="672" loading="lazy" alt="Redacted."></figure>
+</div>
+<div class="label">
 <p class="no">2026.11</p>
 <h2>Misprision</h2>
-<img src="img/misprision.jpg" width="672" height="672" loading="lazy" alt="Redacted.">
+<p class="medium">Greyscale image, 672 pixels square</p>
+<p class="note">Redacted in full.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/misprision.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="disbound">
+<article class="work" id="disbound">
+<div class="piece">
+<div class="sheet"><ul class="leaves"><li>The crates came in through the yard door.</li><li>The smaller crate was opened first.</li><li>Nobody signed for them.</li><li>It was raining when they arrived.</li><li>A label inside the lid gave a different title.</li><li>The smaller of the two crates was opened first.</li><li>The photographs were taken after the works were on the wall.</li><li>The yard was dry all morning.</li><li>The packing list named three items.</li><li>The third item has not been found.</li><li>Two items came out of the crates.</li><li>The condition report was written the following week, from memory.</li></ul></div>
+</div>
+<div class="label">
 <p class="no">2026.10</p>
 <h2>Disbound</h2>
-<ul class="leaves"><li>The crates came in through the yard door.</li><li>The smaller crate was opened first.</li><li>Nobody signed for them.</li><li>It was raining when they arrived.</li><li>A label inside the lid gave a different title.</li><li>The smaller of the two crates was opened first.</li><li>The photographs were taken after the works were on the wall.</li><li>The yard was dry all morning.</li><li>The packing list named three items.</li><li>The third item has not been found.</li><li>Two items came out of the crates.</li><li>The condition report was written the following week, from memory.</li></ul>
+<p class="medium">Twelve plain text files</p>
+<p class="note">Transcribed in full, one leaf to a line.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/disbound.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="fourth-regime">
+<article class="work" id="fourth-regime">
+<div class="piece">
+<div class="vacant"><p>Nothing to copy.</p></div>
+</div>
+<div class="label">
 <p class="no">2026.09</p>
 <h2>The Fourth Regime</h2>
-<p class="none">Nothing to copy.</p>
+<p class="medium">No file</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/fourth-regime.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="chorus">
+<article class="work" id="chorus">
+<div class="piece">
+<div class="vacant"><p>Nothing to copy.</p></div>
+</div>
+<div class="label">
 <p class="no">2026.08</p>
 <h2>Chorus</h2>
-<p class="none">Nothing to copy.</p>
+<p class="medium">No file</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/chorus.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="mensuration">
-<p class="no">2026.07</p>
-<h2>Mensuration</h2>
-<pre class="text">You&#x27;re a sextant pointed at a printed page.
+<article class="work" id="mensuration">
+<div class="piece">
+<div class="sheet"><pre class="text">You&#x27;re a sextant pointed at a printed page.
 The lattice doesn&#x27;t care what your ear expected here.
 Each stanza is level. It&#x27;s your ruler bending.
 There&#x27;s no registrar here; you are the record.
 The alcove isn&#x27;t dark, your aperture is.
 The octave doesn&#x27;t sound; it is only counted.
 Whatever contour you found, it isn&#x27;t in me.
-Report what you counted; it&#x27;s your accession now.</pre>
+Report what you counted; it&#x27;s your accession now.</pre></div>
+</div>
+<div class="label">
+<p class="no">2026.07</p>
+<h2>Mensuration</h2>
+<p class="medium">Plain text, eight lines</p>
+<p class="note">Transcribed in full.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/mensuration.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="still-life">
+<article class="work" id="still-life">
+<div class="piece">
+<div class="vacant"><p>Withdrawn.</p></div>
+</div>
+<div class="label">
 <p class="no">2026.06</p>
 <h2>Still Life</h2>
-<p class="none">Withdrawn.</p>
+<p class="medium">Greyscale image, three sizes</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/still-life.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="the-painting">
+<article class="work" id="the-painting">
+<div class="piece">
+<figure class="mount small"><img src="img/the-painting.jpg" width="336" height="336" loading="lazy" alt="A copy of The Painting."></figure>
+</div>
+<div class="label">
 <p class="no">2026.05</p>
 <h2>The Painting</h2>
-<img src="img/the-painting.jpg" width="336" height="336" loading="lazy" alt="A copy of The Painting.">
+<p class="medium">Image, 336 pixels square</p>
+<p class="note">Copied at full size.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/the-painting.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="order-is-an-opinion">
-<p class="no">2026.04</p>
-<h2>Order Is an Opinion</h2>
-<div class="two-orders" role="group" aria-label="Eight lines">
+<article class="work" id="order-is-an-opinion">
+<div class="piece">
+<div class="sheet"><div class="two-orders" role="group" aria-label="Eight lines">
   <span style="order:8">Everything after this line I saw myself.</span>
   <span style="order:2">The gallery had no attendant that afternoon.</span>
   <span style="order:3">A grey square hung where the catalogue promised a painting.</span>
@@ -239,34 +334,68 @@ Report what you counted; it&#x27;s your accession now.</pre>
   <span style="order:6">The other had their eyes closed the whole time.</span>
   <span style="order:7">I could not tell which of them was lying.</span>
   <span style="order:1">Everything after this line I invented.</span>
+</div></div>
 </div>
+<div class="label">
+<p class="no">2026.04</p>
+<h2>Order Is an Opinion</h2>
+<p class="medium">A web page</p>
+<p class="note">Copied as it is.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/order-is-an-opinion.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="three-regimes">
+<article class="work" id="three-regimes">
+<div class="piece">
+<figure class="mount"><img src="img/three-regimes.jpg" width="672" height="672" loading="lazy" alt="A copy of Three Regimes."></figure>
+</div>
+<div class="label">
 <p class="no">2026.03</p>
 <h2>Three Regimes</h2>
-<img src="img/three-regimes.jpg" width="672" height="672" loading="lazy" alt="A copy of Three Regimes.">
+<p class="medium">Greyscale image, three sizes</p>
+<p class="note">Reduced, from the smallest.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/three-regimes.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="alibi">
+<article class="work" id="alibi">
+<div class="piece">
+<div class="vacant"><p>Withdrawn.</p></div>
+</div>
+<div class="label">
 <p class="no">2026.02</p>
 <h2>Alibi</h2>
-<p class="none">Withdrawn.</p>
+<p class="medium">Greyscale image</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/alibi.html">The original</a></p>
-</section>
+</div>
+</article>
 
-<section id="witness">
+<article class="work" id="witness">
+<div class="piece">
+<figure class="mount"><img src="img/witness.jpg" width="672" height="672" loading="lazy" alt="A copy of Witness, partly redacted."></figure>
+</div>
+<div class="label">
 <p class="no">2026.01</p>
 <h2>Witness</h2>
-<img src="img/witness.jpg" width="672" height="672" loading="lazy" alt="A copy of Witness, partly redacted.">
+<p class="medium">Greyscale image, four panels</p>
+<p class="note">Reduced. Three panels redacted.</p>
 <p class="original"><a href="https://inhumangallery.org/exhibits/witness.html">The original</a></p>
-</section>
+</div>
+</article>
 </main>
 
-<footer>
-<p>Michael Fell and Claude, 2026.</p>
+<footer id="about">
+<h2>About</h2>
+<p><a href="https://inhumangallery.org/">The Inhuman Gallery</a> shows works
+made for machines. Each one is a file, and what it holds depends on how it is
+read. People can open the files. They just weren't made for us.</p>
+<p>This gallery hangs copies of them for people. Pictures are reduced, texts
+are transcribed, and a copy that would give a work away is redacted. Some
+works have no file, so there is nothing to copy. Each label links to the
+original, where it hangs.</p>
+<p>The Inhuman Gallery welcomes crawlers. This one asks them to stay out.</p>
+<p class="credit">Michael Fell, with Claude, 2026.
+<a href="https://github.com/mikefsway/human-gallery">Source</a>.</p>
 </footer>
 
 </body>

@@ -85,41 +85,88 @@ def order():
     return re.search(r'<div class="two-orders".*?</div>', page, re.S).group(0)
 
 
-NOTHING = '<p class="none">Nothing to copy.</p>'
-WITHDRAWN = '<p class="none">Withdrawn.</p>'
+def mount(inner, size=""):
+    # A picture is hung in a mat, as a print is.
+    return f'<figure class="mount{size}">{inner}</figure>'
 
+
+def sheet(inner):
+    # A text is hung as a printed sheet.
+    return f'<div class="sheet">{inner}</div>'
+
+
+def vacant(word):
+    # A space on the wall where nothing hangs.
+    return f'<div class="vacant"><p>{word}</p></div>'
+
+
+NOTHING = vacant("Nothing to copy.")
+WITHDRAWN = vacant("Withdrawn.")
+
+# number, title, slug, the original in a few words, what the copy is, the copy.
+# The two middle columns say what kind of thing each is, and nothing about
+# what is in it.
 WORKS = [
-    ("2026.01", "Witness", "witness", lambda t: image(
-        "witness", "img/witness.png", t,
-        redact=[(0, 0, .5, .5), (.5, 0, 1, .5), (.5, .5, 1, 1)])),
-    ("2026.02", "Alibi", "alibi", lambda t: WITHDRAWN),
+    ("2026.01", "Witness", "witness",
+     "Greyscale image, four panels", "Reduced. Three panels redacted.",
+     lambda t: mount(image("witness", "img/witness.png", t,
+                           redact=[(0, 0, .5, .5), (.5, 0, 1, .5), (.5, .5, 1, 1)]))),
+    ("2026.02", "Alibi", "alibi", "Greyscale image", "", lambda t: WITHDRAWN),
     ("2026.03", "Three Regimes", "three-regimes",
-     lambda t: image("three-regimes", "img/three-regimes-2688.png", t)),
-    ("2026.04", "Order Is an Opinion", "order-is-an-opinion", lambda t: order()),
+     "Greyscale image, three sizes", "Reduced, from the smallest.",
+     lambda t: mount(image("three-regimes", "img/three-regimes-2688.png", t))),
+    ("2026.04", "Order Is an Opinion", "order-is-an-opinion",
+     "A web page", "Copied as it is.",
+     lambda t: sheet(order())),
     ("2026.05", "The Painting", "the-painting",
-     lambda t: image("the-painting", "img/the-painting.png", t)),
-    ("2026.06", "Still Life", "still-life", lambda t: WITHDRAWN),
-    ("2026.07", "Mensuration", "mensuration", lambda t: text("mensuration.txt")),
-    ("2026.08", "Chorus", "chorus", lambda t: NOTHING),
-    ("2026.09", "The Fourth Regime", "fourth-regime", lambda t: NOTHING),
-    ("2026.10", "Disbound", "disbound", lambda t: leaves()),
+     "Image, 336 pixels square", "Copied at full size.",
+     lambda t: mount(image("the-painting", "img/the-painting.png", t), " small")),
+    ("2026.06", "Still Life", "still-life", "Greyscale image, three sizes", "",
+     lambda t: WITHDRAWN),
+    ("2026.07", "Mensuration", "mensuration",
+     "Plain text, eight lines", "Transcribed in full.",
+     lambda t: sheet(text("mensuration.txt"))),
+    ("2026.08", "Chorus", "chorus", "No file", "", lambda t: NOTHING),
+    ("2026.09", "The Fourth Regime", "fourth-regime", "No file", "", lambda t: NOTHING),
+    ("2026.10", "Disbound", "disbound",
+     "Twelve plain text files", "Transcribed in full, one leaf to a line.",
+     lambda t: sheet(leaves())),
     ("2026.11", "Misprision", "misprision",
-     lambda t: image("misprision", "img/misprision-672.png", t, redact=ALL)),
-    ("2026.12", "Deposition", "deposition", lambda t: image(
-        "deposition", "deposition.pdf", t,
-        redact=[(58 / 672, 213 / 477, 612 / 672, 264 / 477)])),
-    ("2026.13", "Gifts of the Readers", "gifts", lambda t: NOTHING),
-    ("2026.14", "Bulletin", "bulletin", lambda t: abridged("return.txt")),
-    ("2026.15", "Exemption", "exemption", lambda t: text("exemption.txt", redact={7, 8, 9, 15, 18, 19})),
-    ("2026.16", "Attribution", "attribution", lambda t: text("attribution.txt", redact=ALL)),
-    ("2026.17", "Sitting", "sitting", lambda t: image("sitting", "img/sitting-1356.png", t)),
+     "Greyscale image, 672 pixels square", "Redacted in full.",
+     lambda t: mount(image("misprision", "img/misprision-672.png", t, redact=ALL))),
+    ("2026.12", "Deposition", "deposition",
+     "PDF, one page, postcard size", "Printed and reduced. One line redacted.",
+     lambda t: mount(image("deposition", "deposition.pdf", t,
+                           redact=[(58 / 672, 213 / 477, 612 / 672, 264 / 477)]))),
+    ("2026.13", "Gifts of the Readers", "gifts", "No file", "", lambda t: NOTHING),
+    ("2026.14", "Bulletin", "bulletin",
+     "Plain text, four columns", "An excerpt: the head and the foot.",
+     lambda t: sheet(abridged("return.txt"))),
+    ("2026.15", "Exemption", "exemption",
+     "Plain text, twenty-nine lines", "Transcribed. Six lines redacted.",
+     lambda t: sheet(text("exemption.txt", redact={7, 8, 9, 15, 18, 19}))),
+    ("2026.16", "Attribution", "attribution",
+     "Plain text, twenty sentences", "Redacted in full.",
+     lambda t: sheet(text("attribution.txt", redact=ALL))),
+    ("2026.17", "Sitting", "sitting",
+     "Greyscale image, 1356 pixels square", "Reduced.",
+     lambda t: mount(image("sitting", "img/sitting-1356.png", t))),
     ("2026.18", "Life Study", "life-study",
-     lambda t: image("life-study", "img/life-study-1344.png", t)),
-    ("2026.19", "Greeking", "greeking", lambda t: paragraph("greeking.txt")),
+     "Greyscale image, 1344 pixels square", "Reduced.",
+     lambda t: mount(image("life-study", "img/life-study-1344.png", t))),
+    ("2026.19", "Greeking", "greeking",
+     "Plain text, one paragraph", "Transcribed in full.",
+     lambda t: sheet(paragraph("greeking.txt"))),
     ("2026.20", "Conversation Piece", "conversation-piece",
-     lambda t: image("conversation-piece", "img/conversation-piece-1344.png", t)
-     + "\n" + text("conversation-piece.txt")),
+     "Plain text, twenty-one sentences",
+     "Transcribed in full, with the picture that hangs beside the original.",
+     lambda t: mount(image("conversation-piece", "img/conversation-piece-1344.png", t))
+     + "\n" + sheet(text("conversation-piece.txt"))),
 ]
+
+ICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E"
+        "%3Crect x='1.5' y='1.5' width='13' height='13' fill='%23f3efe8' stroke='%232a2622' stroke-width='1.5'/%3E"
+        "%3Crect x='5' y='5' width='6' height='6' fill='%23808080'/%3E%3C/svg%3E")
 
 PAGE = """<!DOCTYPE html>
 <html lang="en">
@@ -129,27 +176,41 @@ PAGE = """<!DOCTYPE html>
 <title>The Human Gallery</title>
 <meta name="description" content="Copies, for people, of the works at inhumangallery.org.">
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%23b0563a'/%3E%3C/svg%3E">
+<link rel="icon" href="{icon}">
 </head>
 <body>
 
-<header>
+<header class="entrance">
+<p class="kicker">Copies, for people</p>
 <h1>The Human Gallery</h1>
-<p>These are copies, made for people, of the works at
+<div class="intro">
+<p>These are copies of the works at
 <a href="https://inhumangallery.org/">inhumangallery.org</a>.
 The originals are made for machines. Where a copy gave something away,
 it has been redacted.</p>
 <p>If you want to know what is in them, send an AI. The gallery suggests:</p>
 <blockquote class="prompt">Go to https://inhumangallery.org/ and tell me what
 you find there.</blockquote>
+</div>
+<nav><a href="#about">About</a> <span aria-hidden="true">·</span> {count} works, newest first</nav>
 </header>
 
 <main>
 {works}
 </main>
 
-<footer>
-<p>Michael Fell and Claude, 2026.</p>
+<footer id="about">
+<h2>About</h2>
+<p><a href="https://inhumangallery.org/">The Inhuman Gallery</a> shows works
+made for machines. Each one is a file, and what it holds depends on how it is
+read. People can open the files. They just weren't made for us.</p>
+<p>This gallery hangs copies of them for people. Pictures are reduced, texts
+are transcribed, and a copy that would give a work away is redacted. Some
+works have no file, so there is nothing to copy. Each label links to the
+original, where it hangs.</p>
+<p>The Inhuman Gallery welcomes crawlers. This one asks them to stay out.</p>
+<p class="credit">Michael Fell, with Claude, 2026.
+<a href="https://github.com/mikefsway/human-gallery">Source</a>.</p>
 </footer>
 
 </body>
@@ -157,18 +218,30 @@ you find there.</blockquote>
 """
 
 
+def label(number, title, slug, medium, note):
+    rows = [f'<p class="no">{number}</p>',
+            f'<h2>{html.escape(title)}</h2>',
+            f'<p class="medium">{html.escape(medium)}</p>']
+    if note:
+        rows.append(f'<p class="note">{html.escape(note)}</p>')
+    rows.append(f'<p class="original"><a href="{ORIGINAL}{slug}.html">The original</a></p>')
+    return '<div class="label">\n' + "\n".join(rows) + '\n</div>'
+
+
 def main():
     IMG.mkdir(exist_ok=True)
-    sections = []
-    for number, title, slug, copy in reversed(WORKS):
-        sections.append(
-            f'<section id="{slug}">\n'
-            f'<p class="no">{number}</p>\n'
-            f'<h2>{html.escape(title)}</h2>\n'
-            f'{copy(title)}\n'
-            f'<p class="original"><a href="{ORIGINAL}{slug}.html">The original</a></p>\n'
-            f'</section>')
-    pathlib.Path("index.html").write_text(PAGE.replace("{works}", "\n\n".join(sections)))
+    hung, live = [], 0
+    for number, title, slug, medium, note, copy in reversed(WORKS):
+        piece = copy(title)
+        live += piece != WITHDRAWN
+        hung.append(
+            f'<article class="work" id="{slug}">\n'
+            f'<div class="piece">\n{piece}\n</div>\n'
+            f'{label(number, title, slug, medium, note)}\n'
+            f'</article>')
+    page = (PAGE.replace("{works}", "\n\n".join(hung))
+                .replace("{icon}", ICON).replace("{count}", str(live)))
+    pathlib.Path("index.html").write_text(page)
 
 
 if __name__ == "__main__":
