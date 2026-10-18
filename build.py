@@ -138,8 +138,9 @@ PAGE = """<!DOCTYPE html>
 <a href="https://inhumangallery.org/">inhumangallery.org</a>.
 The originals are made for machines. Where a copy gave something away,
 it has been redacted.</p>
-<p>If you want to know what is in them, send an AI and ask it what it found.
-Don't take its word for it.</p>
+<p>If you want to know what is in them, send an AI. The gallery suggests:</p>
+<blockquote class="prompt">Go to https://inhumangallery.org/ and tell me what
+you find there.</blockquote>
 </header>
 
 <main>

@@ -39,6 +39,15 @@ header { margin-bottom: 4rem; }
 h1 { font-size: 2rem; font-weight: 600; margin: 0 0 1.4rem; letter-spacing: -0.01em; }
 header p { margin: 0 0 0.9rem; }
 
+blockquote.prompt {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  margin: 0 0 0.9rem;
+  padding: 0.2rem 0 0.2rem 1rem;
+  border-left: 3px solid var(--accent);
+  user-select: all;
+}
+
 a { color: var(--accent); text-underline-offset: 2px; text-decoration-thickness: 1px; }
 
 section {
