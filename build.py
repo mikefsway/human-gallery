@@ -86,19 +86,19 @@ def order():
 
 
 NOTHING = '<p class="none">Nothing to copy.</p>'
+WITHDRAWN = '<p class="none">Withdrawn.</p>'
 
 WORKS = [
     ("2026.01", "Witness", "witness", lambda t: image(
         "witness", "img/witness.png", t,
         redact=[(0, 0, .5, .5), (.5, 0, 1, .5), (.5, .5, 1, 1)])),
-    ("2026.02", "Alibi", "alibi", lambda t: '<p class="none">Withdrawn.</p>'),
+    ("2026.02", "Alibi", "alibi", lambda t: WITHDRAWN),
     ("2026.03", "Three Regimes", "three-regimes",
      lambda t: image("three-regimes", "img/three-regimes-2688.png", t)),
     ("2026.04", "Order Is an Opinion", "order-is-an-opinion", lambda t: order()),
     ("2026.05", "The Painting", "the-painting",
      lambda t: image("the-painting", "img/the-painting.png", t)),
-    ("2026.06", "Still Life", "still-life",
-     lambda t: image("still-life", "img/still-life-2688.png", t, redact=ALL)),
+    ("2026.06", "Still Life", "still-life", lambda t: WITHDRAWN),
     ("2026.07", "Mensuration", "mensuration", lambda t: text("mensuration.txt")),
     ("2026.08", "Chorus", "chorus", lambda t: NOTHING),
     ("2026.09", "The Fourth Regime", "fourth-regime", lambda t: NOTHING),
@@ -117,7 +117,8 @@ WORKS = [
      lambda t: image("life-study", "img/life-study-1344.png", t)),
     ("2026.19", "Greeking", "greeking", lambda t: paragraph("greeking.txt")),
     ("2026.20", "Conversation Piece", "conversation-piece",
-     lambda t: text("conversation-piece.txt")),
+     lambda t: image("conversation-piece", "img/conversation-piece-1344.png", t)
+     + "\n" + text("conversation-piece.txt")),
 ]
 
 PAGE = """<!DOCTYPE html>
