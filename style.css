@@ -1,31 +1,22 @@
-/* The Human Gallery. A wall, with things hung on it. */
+/* The Human Gallery */
 
 :root {
-  --wall: #ece7df;
-  --ghost: #f3efe9;
-  --mat: #fbf9f5;
-  --sheet: #fdfcfa;
-  --ink: #26221e;
-  --faint: #7a7166;
-  --rule: #d5ccbf;
-  --accent: #a04e2e;
-  --shadow: 0 1px 2px rgba(48, 36, 24, .10), 0 10px 28px -6px rgba(48, 36, 24, .16);
-  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Charter, Georgia, serif;
-  --sans: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  --wall: #f6f6f4;
+  --mat: #ffffff;
+  --ink: #1e1e1e;
+  --grey: #6b6b6b;
+  --line: #d4d4d0;
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --wall: #1a1816;
-    --ghost: #211f1c;
-    --mat: #2b2824;
-    --sheet: #25221f;
-    --ink: #ebe4d8;
-    --faint: #9d9387;
-    --rule: #3a3530;
-    --accent: #e08a68;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 12px 30px -6px rgba(0, 0, 0, .55);
+    --wall: #1c1c1b;
+    --mat: #2a2a28;
+    --ink: #e6e6e3;
+    --grey: #9a9a96;
+    --line: #3a3a37;
   }
 }
 
@@ -37,77 +28,58 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--wall);
-  font-family: var(--serif);
-  font-size: 1.0625rem;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
-a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
-
-/* ---- the entrance ---- */
+a { color: inherit; text-underline-offset: 2px; text-decoration-thickness: 1px; }
 
 .entrance, main, footer {
-  max-width: 66rem;
+  max-width: 64rem;
   margin: 0 auto;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
 
-.entrance { padding-top: clamp(3rem, 10vw, 7rem); padding-bottom: 2rem; }
+/* ---- entrance ---- */
 
-.kicker, footer h2 {
-  font-family: var(--sans);
-  font-size: .72rem;
-  font-weight: 500;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--faint);
-  margin: 0 0 1rem;
-}
+.entrance { padding-top: clamp(3rem, 9vw, 6rem); }
 
 h1 {
-  font-size: clamp(2.6rem, 8vw, 5rem);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -.02em;
-  margin: 0 0 2.2rem;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 500;
+  line-height: 1.1;
+  margin: 0;
 }
 
-.intro { max-width: 36rem; font-size: 1.15rem; }
+.sub {
+  font-size: 1.15rem;
+  color: var(--grey);
+  margin: .35rem 0 2.5rem;
+}
+
+.intro { max-width: 34rem; }
 .intro p { margin: 0 0 1rem; }
 
-blockquote.prompt {
+.prompt {
   font-family: var(--mono);
   font-size: .85rem;
-  line-height: 1.6;
-  margin: 0;
-  padding: .9rem 1.1rem;
-  background: var(--sheet);
-  box-shadow: var(--shadow);
+  padding-left: 1.25rem;
   user-select: all;
 }
 
-.entrance nav {
-  font-family: var(--sans);
-  font-size: .8rem;
-  color: var(--faint);
-  margin-top: 4rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--rule);
-}
+.intro .small { font-size: .85rem; color: var(--grey); margin-top: 2rem; }
 
 /* ---- the hang ---- */
 
 .work {
   display: grid;
-  grid-template-columns: minmax(0, 42rem) 14rem;
+  grid-template-columns: minmax(0, 42rem) 15rem;
   gap: 2.5rem;
   align-items: end;
-  padding: clamp(3.5rem, 9vw, 7rem) 0 0;
+  padding-top: clamp(4rem, 10vw, 7.5rem);
 }
-.work:first-child { padding-top: 2.5rem; }
 
 .piece {
   display: flex;
@@ -117,13 +89,13 @@ blockquote.prompt {
   min-width: 0;
 }
 
-/* A picture in its mat. */
+/* A picture in a plain white mount. */
 .mount {
   margin: 0;
   max-width: 100%;
-  padding: clamp(1rem, 4.5vw, 2.75rem);
+  padding: clamp(1rem, 4.5vw, 2.5rem);
   background: var(--mat);
-  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
 }
 .mount.small { padding: clamp(2.5rem, 12vw, 6rem); }
 .mount img {
@@ -133,12 +105,12 @@ blockquote.prompt {
   background: #808080;
 }
 
-/* A text, printed. */
+/* A text, on a sheet. */
 .sheet {
   width: 100%;
-  padding: clamp(1.25rem, 4.5vw, 2.75rem);
-  background: var(--sheet);
-  box-shadow: var(--shadow);
+  padding: clamp(1.25rem, 4.5vw, 2.5rem);
+  background: var(--mat);
+  border: 1px solid var(--line);
 }
 
 pre.text {
@@ -149,87 +121,55 @@ pre.text {
   margin: 0;
 }
 pre.wide { white-space: pre; overflow-x: auto; }
-p.text { margin: 0; font-size: 1.05rem; line-height: 1.75; }
+p.text { margin: 0; line-height: 1.7; }
 
 ul.leaves { list-style: none; padding: 0; margin: 0; }
-ul.leaves li { margin: 0 0 .7rem; }
+ul.leaves li { margin: 0 0 .6rem; }
 ul.leaves li:last-child { margin: 0; }
 
 .two-orders {
   display: flex;
   flex-direction: column;
-  font-size: 1.15rem;
-  font-style: italic;
-  line-height: 2;
+  line-height: 1.9;
 }
 .two-orders span { display: block; }
 
-/* Where nothing hangs: the paler patch a frame leaves. */
+/* Nothing hangs here. */
 .vacant {
-  width: min(100%, 22rem);
+  width: min(100%, 20rem);
   aspect-ratio: 4 / 3;
-  display: grid;
-  place-items: center;
-  background: var(--ghost);
-  box-shadow: inset 0 0 0 1px var(--rule);
-}
-.vacant p {
-  margin: 0;
-  font-family: var(--sans);
-  font-size: .8rem;
-  color: var(--faint);
+  border: 1px dashed var(--line);
 }
 
-/* ---- the label ---- */
+/* ---- the label, printed on the wall ---- */
 
 .label {
-  font-family: var(--sans);
   font-size: .8rem;
-  line-height: 1.5;
-  padding: 1rem 1.1rem 1.05rem;
-  background: var(--mat);
-  box-shadow: var(--shadow);
+  line-height: 1.45;
+  max-width: 15rem;
 }
-.label .no {
-  font-family: var(--mono);
-  font-size: .7rem;
-  color: var(--faint);
-  margin: 0;
-}
-.label h2 {
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  font-style: italic;
-  font-weight: 400;
-  line-height: 1.25;
-  margin: .25rem 0 .55rem;
-}
-.label .medium { margin: 0; }
-.label .note { margin: .3rem 0 0; color: var(--faint); }
-.label .original { margin: .85rem 0 0; }
+.label p { margin: 0; }
+.label .title { font-size: .95rem; margin-bottom: .3rem; }
+.label cite { font-style: italic; }
+.label .repro { margin-top: .5rem; }
+.label .acc { margin-top: .75rem; color: var(--grey); }
 
 /* ---- about ---- */
 
 footer {
-  margin-top: clamp(5rem, 12vw, 9rem);
+  margin-top: clamp(5rem, 12vw, 8rem);
   padding-bottom: 5rem;
 }
 footer::before {
   content: "";
   display: block;
-  border-top: 1px solid var(--rule);
-  margin-bottom: 2.5rem;
+  border-top: 1px solid var(--line);
+  margin-bottom: 2rem;
 }
-footer > * { max-width: 36rem; }
+footer > * { max-width: 34rem; }
+footer h2 { font-size: 1rem; font-weight: 500; margin: 0 0 1rem; }
 footer p { margin: 0 0 1rem; }
-footer .credit {
-  font-family: var(--sans);
-  font-size: .8rem;
-  color: var(--faint);
-  margin-top: 2rem;
-}
 
 @media (max-width: 52rem) {
   .work { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
-  .label { justify-self: start; min-width: 14rem; }
 }

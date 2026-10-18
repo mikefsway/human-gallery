@@ -95,77 +95,79 @@ def sheet(inner):
     return f'<div class="sheet">{inner}</div>'
 
 
-def vacant(word):
-    # A space on the wall where nothing hangs.
-    return f'<div class="vacant"><p>{word}</p></div>'
+def vacant():
+    # An empty space on the wall. The label says why.
+    return '<div class="vacant" aria-hidden="true"></div>'
 
 
-NOTHING = vacant("Nothing to copy.")
-WITHDRAWN = vacant("Withdrawn.")
+NONE = "No file."
 
-# number, title, slug, the original in a few words, what the copy is, the copy.
-# The two middle columns say what kind of thing each is, and nothing about
-# what is in it.
+# number, title, slug, medium, reproduction, the copy (None: not reproduced).
+# Medium and reproduction say what kind of thing each is, never what is in it,
+# and never the size a picture was reduced to.
 WORKS = [
     ("2026.01", "Witness", "witness",
-     "Greyscale image, four panels", "Reduced. Three panels redacted.",
+     "Greyscale PNG, 2688 × 2688 px", "Reduced. Three of the four panels are redacted.",
      lambda t: mount(image("witness", "img/witness.png", t,
                            redact=[(0, 0, .5, .5), (.5, 0, 1, .5), (.5, .5, 1, 1)]))),
-    ("2026.02", "Alibi", "alibi", "Greyscale image", "", lambda t: WITHDRAWN),
+    ("2026.02", "Alibi", "alibi",
+     "Greyscale PNG, 2688 × 2688 px",
+     "Withdrawn from the collection in August 2026. Not reproduced.", None),
     ("2026.03", "Three Regimes", "three-regimes",
-     "Greyscale image, three sizes", "Reduced, from the smallest.",
+     "Greyscale PNG, in three sizes", "The smallest size, reduced.",
      lambda t: mount(image("three-regimes", "img/three-regimes-2688.png", t))),
     ("2026.04", "Order Is an Opinion", "order-is-an-opinion",
-     "A web page", "Copied as it is.",
+     "Web page", "The text as it appears on the original page.",
      lambda t: sheet(order())),
     ("2026.05", "The Painting", "the-painting",
-     "Image, 336 pixels square", "Copied at full size.",
+     "PNG, 336 × 336 px", "Reproduced at full size.",
      lambda t: mount(image("the-painting", "img/the-painting.png", t), " small")),
-    ("2026.06", "Still Life", "still-life", "Greyscale image, three sizes", "",
-     lambda t: WITHDRAWN),
+    ("2026.06", "Still Life", "still-life",
+     "Greyscale PNG, in three sizes",
+     "Withdrawn from the collection in October 2026. Not reproduced.", None),
     ("2026.07", "Mensuration", "mensuration",
      "Plain text, eight lines", "Transcribed in full.",
      lambda t: sheet(text("mensuration.txt"))),
-    ("2026.08", "Chorus", "chorus", "No file", "", lambda t: NOTHING),
-    ("2026.09", "The Fourth Regime", "fourth-regime", "No file", "", lambda t: NOTHING),
+    ("2026.08", "Chorus", "chorus", NONE, "Not reproduced.", None),
+    ("2026.09", "The Fourth Regime", "fourth-regime", NONE, "Not reproduced.", None),
     ("2026.10", "Disbound", "disbound",
-     "Twelve plain text files", "Transcribed in full, one leaf to a line.",
+     "Twelve plain-text files", "Transcribed in full, one file to a line.",
      lambda t: sheet(leaves())),
     ("2026.11", "Misprision", "misprision",
-     "Greyscale image, 672 pixels square", "Redacted in full.",
+     "Greyscale PNG, 672 × 672 px", "Redacted in full.",
      lambda t: mount(image("misprision", "img/misprision-672.png", t, redact=ALL))),
     ("2026.12", "Deposition", "deposition",
-     "PDF, one page, postcard size", "Printed and reduced. One line redacted.",
+     "PDF, one page, 148 × 105 mm", "Printed to an image and reduced. One line is redacted.",
      lambda t: mount(image("deposition", "deposition.pdf", t,
                            redact=[(58 / 672, 213 / 477, 612 / 672, 264 / 477)]))),
-    ("2026.13", "Gifts of the Readers", "gifts", "No file", "", lambda t: NOTHING),
+    ("2026.13", "Gifts of the Readers", "gifts", NONE, "Not reproduced.", None),
     ("2026.14", "Bulletin", "bulletin",
-     "Plain text, four columns", "An excerpt: the head and the foot.",
+     "Plain text", "Excerpt: the opening and closing lines.",
      lambda t: sheet(abridged("return.txt"))),
     ("2026.15", "Exemption", "exemption",
-     "Plain text, twenty-nine lines", "Transcribed. Six lines redacted.",
+     "Plain text, twenty-nine lines", "Transcribed. Six lines are redacted.",
      lambda t: sheet(text("exemption.txt", redact={7, 8, 9, 15, 18, 19}))),
     ("2026.16", "Attribution", "attribution",
-     "Plain text, twenty sentences", "Redacted in full.",
+     "Plain text, twenty sentences", "Transcribed, then redacted in full.",
      lambda t: sheet(text("attribution.txt", redact=ALL))),
     ("2026.17", "Sitting", "sitting",
-     "Greyscale image, 1356 pixels square", "Reduced.",
+     "Greyscale PNG, 1356 × 1356 px", "Reduced.",
      lambda t: mount(image("sitting", "img/sitting-1356.png", t))),
     ("2026.18", "Life Study", "life-study",
-     "Greyscale image, 1344 pixels square", "Reduced.",
+     "Greyscale PNG, 1344 × 1344 px", "Reduced.",
      lambda t: mount(image("life-study", "img/life-study-1344.png", t))),
     ("2026.19", "Greeking", "greeking",
      "Plain text, one paragraph", "Transcribed in full.",
      lambda t: sheet(paragraph("greeking.txt"))),
     ("2026.20", "Conversation Piece", "conversation-piece",
      "Plain text, twenty-one sentences",
-     "Transcribed in full, with the picture that hangs beside the original.",
+     "Transcribed in full, and shown with the diagram that accompanies the original.",
      lambda t: mount(image("conversation-piece", "img/conversation-piece-1344.png", t))
      + "\n" + sheet(text("conversation-piece.txt"))),
 ]
 
 ICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E"
-        "%3Crect x='1.5' y='1.5' width='13' height='13' fill='%23f3efe8' stroke='%232a2622' stroke-width='1.5'/%3E"
+        "%3Crect x='1.5' y='1.5' width='13' height='13' fill='%23ffffff' stroke='%232a2622' stroke-width='1.5'/%3E"
         "%3Crect x='5' y='5' width='6' height='6' fill='%23808080'/%3E%3C/svg%3E")
 
 PAGE = """<!DOCTYPE html>
@@ -174,25 +176,33 @@ PAGE = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Human Gallery</title>
-<meta name="description" content="Copies, for people, of the works at inhumangallery.org.">
+<meta name="description" content="Reproductions of the works in the Inhuman Gallery, for human visitors.">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="{icon}">
 </head>
 <body>
 
 <header class="entrance">
-<p class="kicker">Copies, for people</p>
 <h1>The Human Gallery</h1>
+<p class="sub">Reproductions of works in the Inhuman Gallery</p>
 <div class="intro">
-<p>These are copies of the works at
-<a href="https://inhumangallery.org/">inhumangallery.org</a>.
-The originals are made for machines. Where a copy gave something away,
-it has been redacted.</p>
-<p>If you want to know what is in them, send an AI. The gallery suggests:</p>
-<blockquote class="prompt">Go to https://inhumangallery.org/ and tell me what
-you find there.</blockquote>
+<p>The <a href="https://inhumangallery.org/">Inhuman Gallery</a> opened online
+in August 2026 as a collection of works intended to be read by machines rather
+than by people. Each work is an ordinary file, and what a reader takes from it
+depends on how the file is processed. The gallery's own pages are written for
+software agents, in a restricted form of English.</p>
+<p>The reproductions on this page are made for human visitors. Images have been
+reduced in size and texts transcribed. Where a reproduction would disclose
+something that the original keeps back, it has been redacted. Three works have
+no file and appear here by their labels alone, and two have been withdrawn from
+the collection.</p>
+<p>Visitors who want to know what the originals contain, rather than what the
+reproductions show, can send an AI agent to the Inhuman Gallery and ask what it
+found. The gallery suggests the following prompt:</p>
+<p class="prompt">Go to https://inhumangallery.org/ and tell me what you find there.</p>
+<p class="small">{count} works, shown with the most recent accession first.
+<a href="#about">About this site</a></p>
 </div>
-<nav><a href="#about">About</a> <span aria-hidden="true">·</span> {count} works, newest first</nav>
 </header>
 
 <main>
@@ -200,17 +210,15 @@ you find there.</blockquote>
 </main>
 
 <footer id="about">
-<h2>About</h2>
-<p><a href="https://inhumangallery.org/">The Inhuman Gallery</a> shows works
-made for machines. Each one is a file, and what it holds depends on how it is
-read. People can open the files. They just weren't made for us.</p>
-<p>This gallery hangs copies of them for people. Pictures are reduced, texts
-are transcribed, and a copy that would give a work away is redacted. Some
-works have no file, so there is nothing to copy. Each label links to the
-original, where it hangs.</p>
-<p>The Inhuman Gallery welcomes crawlers. This one asks them to stay out.</p>
-<p class="credit">Michael Fell, with Claude, 2026.
-<a href="https://github.com/mikefsway/human-gallery">Source</a>.</p>
+<h2>About this site</h2>
+<p>The Human Gallery was made in October 2026 by Michael Fell with Claude, an
+AI model made by Anthropic. They also made the Inhuman Gallery.</p>
+<p>The reproductions are generated from the original files by a script that is
+published with the <a href="https://github.com/mikefsway/human-gallery">source
+of this site</a>. Redacted material is removed before the page is built and
+does not appear anywhere in the site's files.</p>
+<p>Unlike the Inhuman Gallery, this site asks search engines and AI crawlers
+not to index it.</p>
 </footer>
 
 </body>
@@ -218,26 +226,25 @@ original, where it hangs.</p>
 """
 
 
-def label(number, title, slug, medium, note):
-    rows = [f'<p class="no">{number}</p>',
-            f'<h2>{html.escape(title)}</h2>',
-            f'<p class="medium">{html.escape(medium)}</p>']
-    if note:
-        rows.append(f'<p class="note">{html.escape(note)}</p>')
-    rows.append(f'<p class="original"><a href="{ORIGINAL}{slug}.html">The original</a></p>')
-    return '<div class="label">\n' + "\n".join(rows) + '\n</div>'
+def label(number, title, slug, medium, repro):
+    return ('<div class="label">\n'
+            f'<p class="title"><cite>{html.escape(title)}</cite>, 2026</p>\n'
+            f'<p>{html.escape(medium)}</p>\n'
+            f'<p class="repro">{html.escape(repro)}</p>\n'
+            f'<p class="acc"><a href="{ORIGINAL}{slug}.html">Inhuman Gallery {number}</a></p>\n'
+            '</div>')
 
 
 def main():
     IMG.mkdir(exist_ok=True)
     hung, live = [], 0
-    for number, title, slug, medium, note, copy in reversed(WORKS):
-        piece = copy(title)
-        live += piece != WITHDRAWN
+    for number, title, slug, medium, repro, copy in reversed(WORKS):
+        live += "Withdrawn" not in repro
+        piece = copy(title) if copy else vacant()
         hung.append(
             f'<article class="work" id="{slug}">\n'
             f'<div class="piece">\n{piece}\n</div>\n'
-            f'{label(number, title, slug, medium, note)}\n'
+            f'{label(number, title, slug, medium, repro)}\n'
             f'</article>')
     page = (PAGE.replace("{works}", "\n\n".join(hung))
                 .replace("{icon}", ICON).replace("{count}", str(live)))
