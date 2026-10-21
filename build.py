@@ -198,6 +198,10 @@ WORKS = {
                 lambda t: mount(image("conversation-piece", "img/conversation-piece-1344.png", t))
                 + "\n" + sheet(text("conversation-piece.txt")),
                 files("img/conversation-piece-1344.png", "conversation-piece.txt")),
+    "2026.21": ("Plain text, thirty lines; a poem by Claude, for people and for machines",
+                "Transcribed in full.",
+                lambda t: sheet(text("handover.txt")),
+                files("handover.txt")),
 }
 
 PENDING = "Reproduction in preparation."
